@@ -4,18 +4,36 @@
 
 # Client Gateway for this backend server microservice
 
+## NATS
+
+1. This command is for run the Nats docker image server( it is not necessary when we create a network with docker compose and include the NATS service in that network)
+
+```
+docker run -d --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats
+```
+
 ## Instalations
+
 1. joi
+
 ```
 npm i joi
 ```
 
 2. dotenv
+
 ```
 npm i dotenv
 ```
 
 3. Install microservices
+
 ```
 npm i --save @nestjs/microservices
+```
+
+4. **NATS**
+
+```
+npm i --save nats
 ```

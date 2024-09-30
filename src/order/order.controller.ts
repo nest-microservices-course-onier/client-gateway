@@ -2,12 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Inject, ParseUUIDPipe, Query
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { ORDER_SERVICE } from 'src/config';
-
-import { PaginationDto } from 'src/common';
+import { NATS_SERVICE, ORDER_SERVICE } from 'src/config';
 
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderPaginationDto } from './dto/order-pagination.dto';
 import { StatusDto } from './dto/status.dto';
 
@@ -16,12 +13,12 @@ import { StatusDto } from './dto/status.dto';
 export class OrderController {
 
   constructor(
-    @Inject(ORDER_SERVICE) private readonly orderClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {}
 
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderClient.send('createOrder', createOrderDto)
+    return this.client.send('createOrder', createOrderDto)
       .pipe(
         catchError(err => { throw new RpcException(err) } ),
       );
@@ -29,7 +26,7 @@ export class OrderController {
 
   @Get()
   findAll(@Query() orderPaginationDto: OrderPaginationDto) {
-    return this.orderClient.send('findAllOrders', orderPaginationDto)
+    return this.client.send('findAllOrders', orderPaginationDto)
       .pipe(
         catchError(err => { throw new RpcException(err) } ),
       );
@@ -37,7 +34,7 @@ export class OrderController {
 
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.orderClient.send('findOneOrder', { id })
+    return this.client.send('findOneOrder', { id })
       .pipe(
         catchError(err => { throw new RpcException(err) } ),
       );
@@ -49,7 +46,7 @@ export class OrderController {
     @Body() statusDto: StatusDto,
   ) {
     // ONE SOLUTION
-    // return this.orderClient.send('changeOrderStatus', { id, ...statusDto })
+    // return this.client.send('changeOrderStatus', { id, ...statusDto })
     //   .pipe(
     //     catchError(err => { throw new RpcException(err) } ),
     //   );
@@ -57,7 +54,7 @@ export class OrderController {
     // SECOND SOLUTION
     try {
       
-      return this.orderClient.send('changeOrderStatus', { id, ...statusDto });
+      return this.client.send('changeOrderStatus', { id, ...statusDto });
     } catch (error) {
       throw new RpcException(error);
     }
