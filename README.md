@@ -2,7 +2,15 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-# Client Gateway for this backend server microservice
+# Client Gateway for this backend server using microservices
+
+# Production
+
+To create the unique docker image to production of this client-gateway run this command
+
+```
+docker build -f Dockerfile.prod -t client-gateway .
+```
 
 ## NATS
 
