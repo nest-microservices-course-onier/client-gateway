@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { NATS_SERVICE, PRODUCT_SERVICE } from 'src/config';
+import { NATS_SERVICE } from 'src/config';
 
 import { PaginationDto } from '../common/dto/pagination.dto';
 import { CreateProductDto } from './dto/create-product.dto';
